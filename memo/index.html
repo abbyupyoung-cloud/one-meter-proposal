@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【one-meter】Q4品牌曝光活動 預算 請示</title>
+<style>
+    :root {
+        color-scheme: light;
+        --primary-color: #0f7c8c;
+        --accent-color: #d32f2f;
+        --border-color: #e2e8f0;
+        --bg-color: #f8fafc;
+        --card-bg: #ffffff;
+        --text-main: #333333;
+        --text-secondary: #4a5568;
+    }
+
+    body {
+        font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        line-height: 1.6;
+        margin: 0;
+        padding: 40px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        font-size: 14pt;
+    }
+
+    .proposal-card {
+        background-color: var(--card-bg);
+        width: 100%;
+        max-width: 960px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+    }
+
+    .card-top-accent {
+        height: 8px;
+        background: var(--primary-color);
+        width: 100%;
+    }
+
+    .card-body {
+        padding: 40px;
+    }
+
+    .summary-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 20px;
+        padding-bottom: 25px;
+        border-bottom: 2px solid #edf2f7;
+    }
+
+    .summary-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .summary-label {
+        font-size: 14pt;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .summary-value {
+        font-size: 16pt;
+        font-weight: 800;
+        color: var(--primary-color);
+        line-height: 1.2;
+    }
+
+    .summary-value.total {
+        color: var(--accent-color);
+    }
+
+    .key-points-container {
+        background-color: #eef6f7;
+        border-left: 5px solid var(--primary-color);
+        padding: 18px 25px;
+        margin-bottom: 30px;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .highlight-orange {
+        color: #ea580c;
+        font-weight: 700;
+    }
+
+    .section {
+        margin-bottom: 30px;
+    }
+
+    .section-title {
+        font-size: 15pt;
+        color: var(--primary-color);
+        margin: 0 0 12px 0;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #edf2f7;
+        padding-bottom: 8px;
+    }
+
+    .section-title::before {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 18px;
+        background-color: var(--primary-color);
+        margin-right: 12px;
+        border-radius: 2px;
+    }
+
+    .content-block {
+        padding-left: 18px;
+        color: var(--text-main);
+        margin-bottom: 15px;
+        font-size: 14pt;
+    }
+
+    .table-container {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow-x: auto;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+    .budget-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13pt;
+    }
+
+    .budget-table th {
+        background-color: #f8fafc;
+        color: var(--primary-color);
+        font-weight: 700;
+        text-align: center;
+        padding: 12px 8px;
+        border-bottom: 2px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+        white-space: nowrap;
+    }
+
+    .budget-table td {
+        padding: 12px 8px;
+        border-bottom: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+        text-align: center;
+    }
+
+    .budget-table th:last-child, .budget-table td:last-child {
+        border-right: none;
+    }
+
+    .budget-table .text-left {
+        text-align: left;
+        padding-left: 15px;
+    }
+
+    .budget-table .num {
+        text-align: right;
+        padding-right: 15px;
+        white-space: nowrap;
+    }
+
+    .budget-table tr.wave td {
+        background-color: #eef6f7;
+        color: var(--primary-color);
+        font-weight: 700;
+        text-align: left;
+        padding-left: 15px;
+    }
+
+    .budget-table tfoot td {
+        font-weight: 700;
+        background-color: #f8fafc;
+    }
+
+    .budget-table tfoot td.grand-total {
+        color: var(--accent-color);
+        font-size: 15pt;
+    }
+
+    .tag {
+        display: inline-block;
+        font-size: 11pt;
+        font-weight: 700;
+        padding: 1px 10px;
+        border-radius: 20px;
+        white-space: nowrap;
+    }
+
+    .tag.quote { background: #e2f2f4; color: var(--primary-color); }
+    .tag.est { background: #fff3e0; color: #c2410c; }
+
+    .brand-highlight {
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+
+    .nested-list {
+        margin: 8px 0;
+        padding-left: 20px;
+        list-style-type: none;
+    }
+
+    .nested-list li {
+        position: relative;
+        padding-left: 20px;
+        margin-bottom: 10px;
+        font-size: 14pt;
+    }
+
+    .nested-list li::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+
+    .note {
+        font-size: 12pt;
+        color: var(--text-secondary);
+    }
+
+    .compare-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 10px;
+    }
+
+    .compare-col {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .compare-col-header {
+        padding: 12px 16px;
+        font-weight: 700;
+        font-size: 14pt;
+        color: #fff;
+    }
+
+    .compare-col.budget .compare-col-header {
+        background-color: #64748b;
+    }
+
+    .compare-col.proposal .compare-col-header {
+        background-color: var(--primary-color);
+    }
+
+    .compare-col table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13pt;
+    }
+
+    .compare-col td {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .compare-col td.amt {
+        text-align: right;
+        white-space: nowrap;
+        font-weight: 700;
+    }
+
+    .compare-col tr.total td {
+        background-color: #f8fafc;
+        font-weight: 800;
+        border-top: 2px solid var(--border-color);
+        border-bottom: none;
+    }
+
+    .compare-col tr.total td.amt {
+        color: var(--accent-color);
+        font-size: 14.5pt;
+    }
+
+    @media (max-width: 600px) {
+        body { padding: 16px; }
+        .card-body { padding: 20px; }
+        .summary-row { grid-template-columns: 1fr; gap: 20px; }
+        .compare-row { grid-template-columns: 1fr; }
+    }
+</style>
+</head>
+<body>
+
+<div class="proposal-card">
+    <div class="card-top-accent"></div>
+    <div class="card-body">
+
+        <!-- 摘要區塊 -->
+        <div class="summary-row">
+            <div class="summary-item">
+                <span class="summary-label">案由</span>
+                <div class="summary-value">Q4品牌曝光活動－Dcard 街訪長影音＋KOL＋會員深化</div>
+                <div style="font-size:13pt; color: var(--text-secondary); margin-top:6px;">預計 11 月中簽約，年底前上片</div>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">請示金額</span>
+                <div class="summary-value total">NT$ 800,000（含稅）</div>
+            </div>
+        </div>
+
+        <!-- 重點摘要 -->
+        <div class="key-points-container">
+            <ul class="nested-list" style="margin-bottom: 0;">
+                <li><span class="highlight-orange">執行內容</span>：Dcard 客製化街訪長影音（搭配 FB）＋2位KOL合作＋保固會員 EDM／LINE 推播，11～12月執行。</li>
+                <li><span class="highlight-orange">預算狀態</span>：各項合計 $783,500，另列預留款 $16,500，總額不超過 $800,000（含稅）。</li>
+            </ul>
+        </div>
+
+        <!-- 一、活動說明 -->
+        <div class="section">
+            <h3 class="section-title">一、活動說明</h3>
+            <div class="content-block">
+                以第三方街訪內容提升 one-meter 品牌知名度與信任度，再以 KOL 擴大口碑，並將既有保固會員深化為 LINE 老粉，分三波執行：
+                <ul class="nested-list">
+                    <li><span class="brand-highlight">第一波｜Dcard 街訪長影音：</span>Dcard 主持人街訪路人、自然帶出產品，於 Dcard 報報 YouTube、官方粉專（貼文 ×2）及站內贊助文章＋抽獎曝光，上線 7 天內保證合計 300,000 views，另投放 2 週曝光廣告；影片資訊欄與文章附官網、momo、蝦皮導購連結。</li>
+                    <li><span class="brand-highlight">第二波｜KOL 合作：</span>2 位 KOL 分享並搭配曝光廣告，接續影片上線；候選名單另行提出討論。</li>
+                    <li><span class="brand-highlight">第三波｜會員深化：</span>對保固網會員 21,081 人發送 EDM、對 LINE 好友 27,000 人推播，以專屬活動引導會員加入 LINE、綁定保固並參與互動，重深度不重廣度；活動方式另行討論。</li>
+                </ul>
+                街訪影片腳本後續會再提供給業務單位確認。
+            </div>
+        </div>
+
+        <!-- 二、項目明細 -->
+        <div class="section">
+            <h3 class="section-title">二、項目明細與預計金額（含稅）</h3>
+            <div class="table-container">
+                <table class="budget-table">
+                    <thead>
+                        <tr>
+                            <th>項次</th>
+                            <th>摘要</th>
+                            <th>說明</th>
+                            <th>金額 (NT$)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="wave"><td colspan="4">第一波｜Dcard 街訪長影音</td></tr>
+                        <tr>
+                            <td>1</td>
+                            <td class="text-left">Dcard 客製化長影音_街訪版</td>
+                            <td class="text-left">15 分鐘以內街訪長片＋Dcard 報報 YouTube、官方粉專貼文 ×2、站內贊助文章，7 天保證 300,000 views</td>
+                            <td class="num brand-highlight">472,500</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td class="text-left">曝光廣告</td>
+                            <td class="text-left">街訪影片曝光廣告投放 2 週</td>
+                            <td class="num brand-highlight">50,000</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td class="text-left">抽獎獎品</td>
+                            <td class="text-left">贊助文章抽獎活動獎品</td>
+                            <td class="num brand-highlight">50,000</td>
+                        </tr>
+                        <tr class="wave"><td colspan="4">第二波｜KOL 合作</td></tr>
+                        <tr>
+                            <td>4</td>
+                            <td class="text-left">KOL 合作費</td>
+                            <td class="text-left">KOL ×2 合作分享：知名曝光型 KOL</td>
+                            <td class="num brand-highlight">150,000</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td class="text-left">曝光廣告</td>
+                            <td class="text-left">KOL 貼文曝光廣告</td>
+                            <td class="num brand-highlight">50,000</td>
+                        </tr>
+                        <tr class="wave"><td colspan="4">第三波｜會員深化</td></tr>
+                        <tr>
+                            <td>6</td>
+                            <td class="text-left">保固網會員 EDM</td>
+                            <td class="text-left">對保固網會員 21,081 人發送 EDM</td>
+                            <td class="num brand-highlight">5,000</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td class="text-left">LINE 推播</td>
+                            <td class="text-left">對 LINE 好友 27,000 人推播活動訊息</td>
+                            <td class="num brand-highlight">6,000</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-left">各項合計</td>
+                            <td class="num">783,500</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-left">預留款（廣告加碼、活動彈性運用）</td>
+                            <td class="num">16,500</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-left">總金額（含稅）</td>
+                            <td class="num grand-total">800,000</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
